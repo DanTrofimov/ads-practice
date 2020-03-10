@@ -1,7 +1,9 @@
 public class WordSet {
-
+    // WordSet properties
     protected Node head;
-    private class Node{
+
+    // node of the WordSet
+    private class Node {
 
         private String data;
         private Node next;
@@ -38,10 +40,12 @@ public class WordSet {
         }
     }
 
+    // constructors
     public WordSet(){
         this.head = null;
     }
 
+    // constructor #2 which merges two WordSets
     public WordSet(WordSet w1,WordSet w2){
         this.head = w1.head;
         Node e1 = w1.head;
@@ -51,6 +55,7 @@ public class WordSet {
         e1.setNext(w2.head);
     }
 
+    // toSting WordSet
     public String toString(){
         StringBuilder str = new StringBuilder();
         Node item = this.head;
@@ -63,6 +68,7 @@ public class WordSet {
         return str.toString();
     }
 
+    // deletes word from the WordSet
     public void delete(String word){
         if (word.equals(this.head.getData())){
             head = this.head.getNext();
@@ -81,6 +87,7 @@ public class WordSet {
         }
     }
 
+    // deletes palindrome from the WordSet
     public void removePalindrom(){
         while (this.checkPolindrom(this.head.getData())){
             this.head = head.getNext();
@@ -101,7 +108,7 @@ public class WordSet {
         }
     }
 
-
+    // check to the palindrome
     private boolean checkPolindrom(String str){
         for (int i = 0;i<(int) str.length()/2;i++){
             if (str.charAt(i)!=str.charAt(str.length()-1-i)){
@@ -111,7 +118,8 @@ public class WordSet {
         return true;
     }
 
-    private int compareTo(String w1,String w2){
+    // compares two Strings lexicographically
+    public int compareTo(String w1,String w2){
         char ch1,ch2;
         for (int i = 0;i<Math.min(w1.length(), w2.length());i++){
             ch1 = w1.charAt(i);
@@ -141,5 +149,72 @@ public class WordSet {
             ans = w1.length() - w2.length();
         }
         return ans;
+    }
+
+    // *--------*
+    // insert new Node in the WordSet
+    public void insert(String word) {
+        if (!contains(word)) {
+            if (this.head == null) {
+                this.head = new Node(word, null);
+            } else {
+                Node nextNode = this.head;
+                while (nextNode.getNext() != null && compareTo(nextNode.getData(), word) > 0) {
+                    nextNode = nextNode.getNext();
+                }
+                Node newNode = new Node(word, nextNode.getNext());
+                nextNode.setNext(newNode);
+            }
+        }
+    }
+
+
+    // true - includes; false - not
+    public boolean contains(String word) {
+        if (this.head == null) {
+            return false;
+        } else {
+            if (word.equals(this.head.data)) {
+                return true;
+            } else {
+                Node nextNode = this.head;
+                while (nextNode != null) {
+                    if (word.equals(nextNode.getData())) {
+                        return true;
+                    } else {
+                        nextNode = nextNode.getNext();
+                    }
+                }
+                return false;
+            }
+        }
+    }
+
+    // constructor #1
+    public WordSet(String[] arr) {
+        this.head = null;
+        for (int i = 0; i < arr.length; i++) {
+
+        }
+    }
+
+    public String[] modifyArray(String[] str) {
+        String[] result = new String[str.length];
+        int uniqAmount = 0;
+        for (int i = 0; i < str.length; i++) {
+            boolean flag = true;
+            String element = str[i];
+            for (int j = 0; j < result.length; j++) {
+                if (element.equals(result[j])) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                result[uniqAmount] = element;
+                uniqAmount++;
+            }
+        }
+        return result;
     }
 }

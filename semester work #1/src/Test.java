@@ -12,6 +12,10 @@ public class Test {
         wset.insert("c");
         wset.insert("d");
         wset.delete("b");
+        wset.insert("A");
+        wset.insert("D");
+        wset.insert("A");
+        wset.delete("D");
         System.out.println(wset.toString());
 
         System.out.println(wset.compareTo("aaa", "aab"));

@@ -37,7 +37,7 @@ class LinkedList<T> {
         this.amount++;
     }
 
-    public void addAfter(T findValue, T addVal) throws LinkedListOutOfBoundsException{
+    public void addAfter(T findValue, T addVal) throws LinkedListOutOfBoundsException {
         Node buffer;
         if (this.head == null) {
             throw new LinkedListOutOfBoundsException("This list is empty");

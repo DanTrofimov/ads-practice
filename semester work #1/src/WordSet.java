@@ -45,6 +45,14 @@ public class WordSet {
         this.head = null;
     }
 
+    // constructor #1
+    public WordSet(String[] arr) {
+        this.head = null;
+        for (int i = 0; i < arr.length; i++) {
+            this.insert(arr[i]);
+        }
+    }
+
     // constructor #2 which merges two WordSets
     public WordSet(WordSet w1,WordSet w2){
         this.head = w1.head;
@@ -118,56 +126,31 @@ public class WordSet {
         return true;
     }
 
-    // compares two Strings lexicographically
-    public int compareTo(String w1,String w2){
-        char ch1,ch2;
-        for (int i = 0;i<Math.min(w1.length(), w2.length());i++){
-            ch1 = w1.charAt(i);
-            ch2 = w2.charAt(i);
-            if ((ch1>='A')&&(ch1<='Z')){
-                if ((ch2>='A')&&(ch2<='Z')){
-                    if (!(ch1==ch2)){
-                        return -(ch1-ch2);
-                    }
-                } else if ((ch2>='a')&&(ch2<='z')){
-                    return -(ch1-ch2);
-                }
-            } else if ((ch1>='a')&&(ch1<='z')){
-                if ((ch2>='A')&&(ch2<='Z')){
-                    return (ch1-ch2);
-                } else if ((ch2>='a')&&(ch2<='z')){
-                    if (!(ch1==ch2)){
-                        return -(ch1-ch2);
-                    }
-                }
-            }
-        }
-        int ans;
-        if (w1.length()==w2.length()){
-            ans = 0;
-        } else {
-            ans = w1.length() - w2.length();
-        }
-        return ans;
-    }
-
-    // *--------*
-    // insert new Node in the WordSet
+    // inserts new Node in the WordSet
     public void insert(String word) {
         if (!contains(word)) {
             if (this.head == null) {
                 this.head = new Node(word, null);
             } else {
-                Node nextNode = this.head;
-                while (nextNode.getNext() != null && compareTo(nextNode.getData(), word) > 0) {
-                    nextNode = nextNode.getNext();
+                if (this.head.data.compareTo(word) > 0) { // if (compare(this.head.data, word) > 0)
+                        Node buffer = this.head;
+                        this.head = new Node(word, buffer);
+                        return;
+                } else {
+                    Node nextNode = this.head;
+                    while (nextNode.next != null) {
+                        if (word.compareTo(nextNode.next.data) < 0) { // if (compare(word, nextNode.next.data))
+                            Node newNode = new Node(word, nextNode.next);
+                            nextNode.next = newNode;
+                            return;
+                        } else nextNode = nextNode.next;
+                    }
+                    Node newNode = new Node(word, null);
+                    nextNode.next = newNode;
                 }
-                Node newNode = new Node(word, nextNode.getNext());
-                nextNode.setNext(newNode);
             }
         }
     }
-
 
     // true - includes; false - not
     public boolean contains(String word) {
@@ -190,30 +173,48 @@ public class WordSet {
         }
     }
 
-    // constructor #1
-    public WordSet(String[] arr) {
-        this.head = null;
-        for (int i = 0; i < arr.length; i++) {
+    // returns new WordSet with words with length - len
+    public WordSet newWordSetByWordLength(int len) {
+        WordSet result = new WordSet();
+        if (this.head == null) {
+            return result;
+        } else {
+            Node nextNode = this.head;
+            while (nextNode != null) {
+                if (nextNode.data.length() == len) {
+                    result.insert(nextNode.data);
+                }
+                nextNode = nextNode.next;
+            }
+            return result;
         }
     }
 
-    public String[] modifyArray(String[] str) {
-        String[] result = new String[str.length];
-        int uniqAmount = 0;
-        for (int i = 0; i < str.length; i++) {
-            boolean flag = true;
-            String element = str[i];
-            for (int j = 0; j < result.length; j++) {
-                if (element.equals(result[j])) {
-                    flag = false;
-                    break;
+    // sort words to by first char to consonants or vowels
+    public WordSet [] vowelDivide() {
+        WordSet[] result = new WordSet[2];
+        result[0] = new WordSet();
+        result[1] = new WordSet();
+        if (this.head == null) {
+            return result;
+        } else {
+            Character[] vowels = new Character[] {'A', 'E', 'I', 'O', 'U', 'Y', 'a', 'e', 'i', 'o', 'u', 'y'};
+            Node nextNode = this.head;
+            boolean flag;
+            while (nextNode != null) {
+                flag = true;
+                for (int i = 0; i < vowels.length; i++) {
+                    if (nextNode.data.charAt(0) == vowels[i]) {
+                        // add to vowels-words
+                        result[0].insert(nextNode.data);
+                        flag = false;
+                    } else continue;
                 }
+                // add to consonants-words
+                if (flag) result[1].insert(nextNode.data);
+                nextNode = nextNode.next;
             }
-            if (flag) {
-                result[uniqAmount] = element;
-                uniqAmount++;
-            }
+            return result;
         }
-        return result;
     }
 }

@@ -66,6 +66,9 @@ public class WordSet {
     // toSting WordSet
     public String toString(){
         StringBuilder str = new StringBuilder();
+        if (this.head == null) {
+            return str.toString();
+        }
         Node item = this.head;
         str.append(item.getData());
         while (item.getNext()!=null){

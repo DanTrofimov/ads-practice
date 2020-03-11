@@ -177,7 +177,8 @@ public class WordSet {
     public WordSet newWordSetByWordLength(int len) {
         WordSet result = new WordSet();
         if (this.head == null) {
-            return result;
+            // try to fix NullPointerExsception
+            return null;
         } else {
             Node nextNode = this.head;
             while (nextNode != null) {
@@ -196,7 +197,8 @@ public class WordSet {
         result[0] = new WordSet();
         result[1] = new WordSet();
         if (this.head == null) {
-            return result;
+            // try to fix NullPointerExsception
+            return null;
         } else {
             Character[] vowels = new Character[] {'A', 'E', 'I', 'O', 'U', 'Y', 'a', 'e', 'i', 'o', 'u', 'y'};
             Node nextNode = this.head;

@@ -1,8 +1,17 @@
+/**
+ * A set that stores words consisting of English lowercase and capital letters.
+ * Words are stored in sorted form, each element is unique in the set.
+ */
 public class WordSet {
-    // WordSet properties
+
+    /**
+     * WordSet properties.
+     */
     protected Node head;
 
-    // node of the WordSet
+    /**
+     * Node of the WordSet.
+     */
     private class Node {
 
         private String data;
@@ -40,12 +49,21 @@ public class WordSet {
         }
     }
 
-    // constructors
+    /**
+     * Void constructor.
+     * T = O(1).
+     * M = O(1).
+     */
     public WordSet(){
         this.head = null;
     }
 
-    // constructor #1
+    /**
+     * A constructor that creates an instance of the WordSet class based on an array of words.
+     * @param arr - The array from which to create WordSet.
+     * T = O(n^m) (n - the amount of the words in the WordSet,m - the amount of the words in the input array).
+     * M = O(n) (n - the amount of the words in the WordSet).
+     */
     public WordSet(String[] arr) {
         this.head = null;
         for (int i = 0; i < arr.length; i++) {
@@ -53,17 +71,67 @@ public class WordSet {
         }
     }
 
-    // constructor #2 which merges two WordSets
+    /**
+     * constructor #2 which merges two WordSets.
+     * @param w1 - One of two combined sets
+     * @param w2 - One of two combined sets.
+     * T = O(n+m) (n and m - number of elements in the combined sets).
+     * M = O(n + m) (n and m - number of elements in the combined sets).
+     */
     public WordSet(WordSet w1,WordSet w2){
-        this.head = w1.head;
         Node e1 = w1.head;
-        while (e1.getNext()!=null){
+        Node e2 = w2.head;
+        Node e3;
+        if ((e1==null)&&(e2==null)){
+            this.head=null;
+            return;
+        } else if (e1==null){
+            this.head = new Node(e2.getData());
+            e2 = e2.getNext();
+        } else if (e2==null){
+            this.head = new Node (e1.getData());
             e1 = e1.getNext();
+        } else if (e1.getData().compareTo(e2.getData())<0){
+            this.head = new Node (e1.getData());
+            e1 = e1.getNext();
+        } else {
+            this.head = new Node(e2.getData());
+            e2 = e2.getNext();
         }
-        e1.setNext(w2.head);
+        e3 = this.head;
+        Node e4;
+        while ((e1!=null)||(e2!=null)){
+            if ((e1!=null)&&(e2!=null)&&(e1.getData().compareTo(e2.getData())<0)){
+                e4 = new Node(e1.getData());
+                e3.setNext(e4);;
+                e3 = e4;
+                e1 = e1.getNext();
+            } else if ((e1!=null)&&(e2!=null)){
+                e4 = new Node(e2.getData());
+                e3.setNext(e4);;
+                e3 = e4;
+                e2 = e2.getNext();
+            } else if (e1!=null){
+                e4 = new Node(e1.getData());
+                e3.setNext(e4);;
+                e3 = e4;
+                e1 = e1.getNext();
+            } else {
+                e4 = new Node(e2.getData());
+                e3.setNext(e4);;
+                e3 = e4;
+                e2 = e2.getNext();
+            }
+        }
     }
 
-    // toSting WordSet
+    /**
+     * WordSet string representation
+     * @return wordSet string representation
+     * T = O(n) (n - the amount of the words in the WordSet).
+     * M = O(n*k + t) (n - the amount of the words in the WordSet, k - average number of characters in a word
+     * of WordSet, t - the amount of memory reserved by StringBuilder).
+     */
     public String toString(){
         StringBuilder str = new StringBuilder();
         if (this.head == null) {
@@ -79,10 +147,16 @@ public class WordSet {
         return str.toString();
     }
 
-    // deletes word from the WordSet
+    /**
+     * deletes word from the WordSet.
+     * @param word - The word to be removed from the WordSet.
+     * T = O(n) (n - the amount of the words in the WordSet).
+     * M = O(1)
+     */
     public void delete(String word){
         if (word.equals(this.head.getData())){
             head = this.head.getNext();
+            return;
         }
         Node del = this.head.getNext();
         Node l = this.head;
@@ -98,14 +172,23 @@ public class WordSet {
         }
     }
 
-    // deletes palindrome from the WordSet
+
+    /**
+     * Deletes all palindromes from the WordSet.
+     * T = O(n*t) (n - the amount of the words in the WordSet, t - average words length).
+     * M = O(1).
+     */
     public void removePalindrom(){
-        while (this.checkPolindrom(this.head.getData())){
+        while ((this.head!=null)&&(this.checkPolindrom(this.head.getData()))){
             this.head = head.getNext();
         }
-        Node del = this.head.getNext();
-        Node l = this.head;
-        while (del.getNext()!=null){
+        Node del= null;
+        Node l = null;
+        if (this.head!=null){
+            del = this.head.getNext();
+            l = this.head;
+        }
+        while ((del!=null)&&(del.getNext()!=null)){
             if (this.checkPolindrom(del.getData())){
                 l.setNext(del.getNext());
                 del = del.getNext();
@@ -114,12 +197,18 @@ public class WordSet {
                 del = del.getNext();
             }
         }
-        if (this.checkPolindrom(del.getData())) {
+        if ((del!=null)&&(this.checkPolindrom(del.getData()))) {
             l.setNext(null);
         }
     }
 
-    // check to the palindrome
+    /**
+     * Check string to the palindrome.
+     * @param str - check string.
+     * @return result of checking.
+     * T = O(l) (l - string length).
+     * M = O(1).
+     */
     private boolean checkPolindrom(String str){
         for (int i = 0;i<(int) str.length()/2;i++){
             if (str.charAt(i)!=str.charAt(str.length()-1-i)){
@@ -129,16 +218,21 @@ public class WordSet {
         return true;
     }
 
-    // inserts new Node in the WordSet
+    /**
+     * Inserts new word in the WordSet.
+     * @param word - word to add.
+     * T = O(n) (n - the amount of the words in the WordSet).
+     * M = O(1).
+     */
     public void insert(String word) {
         if (!contains(word)) {
             if (this.head == null) {
                 this.head = new Node(word, null);
             } else {
                 if (this.head.data.compareTo(word) > 0) { // if (compare(this.head.data, word) > 0)
-                        Node buffer = this.head;
-                        this.head = new Node(word, buffer);
-                        return;
+                    Node buffer = this.head;
+                    this.head = new Node(word, buffer);
+                    return;
                 } else {
                     Node nextNode = this.head;
                     while (nextNode.next != null) {
@@ -155,7 +249,13 @@ public class WordSet {
         }
     }
 
-    // true - includes; false - not
+    /**
+     * Checks if the word is in the currentю
+     * @param word - the word to search in WordSet.
+     * @return - result of checking.
+     * T = O(n) (n - the amount of the words in the WordSet).
+     * M = O(1).
+     */
     public boolean contains(String word) {
         if (this.head == null) {
             return false;
@@ -176,7 +276,13 @@ public class WordSet {
         }
     }
 
-    // returns new WordSet with words with length - len
+    /**
+     * Returns new WordSet with words with length - len.
+     * @param len - word length in new WordSet.
+     * @return - new WordSet.
+     * T = O(n) (n - the amount of the words in the WordSet).
+     * M = O(n) (n - the amount of the words in the WordSet).
+     */
     public WordSet newWordSetByWordLength(int len) {
         WordSet result = new WordSet();
         if (this.head == null) {
@@ -194,7 +300,12 @@ public class WordSet {
         }
     }
 
-    // sort words to by first char to consonants or vowels
+    /**
+     * sort words to by first char to consonants or vowels
+     * @return - 2 sorted arrays.
+     * T = O(n) (n - the amount of the words in the WordSet).
+     * M = O(n) (n - the amount of the words in the WordSet).
+     */
     public WordSet [] vowelDivide() {
         WordSet[] result = new WordSet[2];
         result[0] = new WordSet();

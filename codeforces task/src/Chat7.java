@@ -33,18 +33,19 @@ public class Chat7 {
         br = new BufferedReader(new InputStreamReader(System.in));
         // количество чатов
         int n = nextInt();
-        ArrayList<String> chats = new ArrayList<>();
-//        Stack<String> chats = new Stack<>();
-        String chat;
-        for (int i = 0; i < n; i++) {
-            chat = nextLine();
-            if (chats.contains(chat)) {
-                chats.remove(chat);
-                chats.add(chats.size(), chat);
-            } else chats.add(chat);
+        String singleChat;
+        LinkedHashSet<String> resultChats = new LinkedHashSet<String>();
+        String[] inputChats = new String[n];
+        for(int i=n-1; i>=0; i--){
+            singleChat = nextLine();
+            inputChats[i] = singleChat;
         }
-        for (int i = chats.size() - 1; i >=0; i--) {
-            pw.println(chats.get(i));
+        for(int i=0; i<n; i++){
+            resultChats.add(inputChats[i]);
+        }
+
+        for (String chat : resultChats) {
+            pw.println(chat);
         }
     }
 }

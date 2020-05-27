@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Queue;
 
 public class MergeSort {
     public static void main(String[] args) {
@@ -17,7 +16,7 @@ public class MergeSort {
         if (array.length < 2) return;
         int middle = arrayLength / 2;
         int[] l = new int[middle];
-        int[] r = new int[arrayLength-middle];
+        int[] r = new int[arrayLength - middle];
         l = Arrays.copyOfRange(array, 0, middle);
         r = Arrays.copyOfRange(array, middle, arrayLength);
         mergeSortRecursion(l);

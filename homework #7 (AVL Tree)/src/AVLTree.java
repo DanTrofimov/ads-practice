@@ -1,24 +1,13 @@
 class AVLTree {
 
     // корневой элемент
-    Node root;
+    private Node root;
 
     // высота дерева
     private int height(Node N) {
         if (N == null)
             return 0;
         return N.height;
-    }
-
-    // поворот по часовой
-    private Node rotateToRight(Node y) {
-        Node x = y.left;
-        Node T2 = x.right;
-        x.right = y;
-        y.left = T2;
-        y.height = max(height(y.left), height(y.right)) + 1;
-        x.height = max(height(x.left), height(x.right)) + 1;
-        return x;
     }
 
     // поворот против часовой
@@ -32,11 +21,15 @@ class AVLTree {
         return y;
     }
 
-    // балансировка дерева
-    private int getBalance(Node N) {
-        if (N == null)
-            return 0;
-        return height(N.left) - height(N.right);
+    // поворот по часовой
+    private Node rotateToRight(Node y) {
+        Node x = y.left;
+        Node T2 = x.right;
+        x.right = y;
+        y.left = T2;
+        y.height = max(height(y.left), height(y.right)) + 1;
+        x.height = max(height(x.left), height(x.right)) + 1;
+        return x;
     }
 
     // вставка элемента
@@ -68,6 +61,13 @@ class AVLTree {
         Node current = node;
         while (current.left != null) current = current.left;
         return current;
+    }
+
+    // балансировка дерева
+    private int getBalance(Node N) {
+        if (N == null)
+            return 0;
+        return height(N.left) - height(N.right);
     }
 
     private int max(int a, int b) {

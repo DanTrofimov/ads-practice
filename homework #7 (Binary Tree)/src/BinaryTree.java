@@ -18,7 +18,7 @@ public class BinaryTree {
     }
 
     // корневой элемент
-    public Node root;
+    private Node root;
 
     // элемент дерева
     class Node {

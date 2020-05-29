@@ -5,18 +5,6 @@ import java.util.Queue;
 
 public class BinaryTree {
 
-    public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 4, 5};
-        BinaryTree bin = new BinaryTree();
-        for (int i = 0; i < arr.length; i++) {
-            bin.add(arr[i]);
-        }
-        bin.delete(1);
-        bin.breadthFirstSearch();
-        System.out.println();
-        bin.deepFirstSearch(bin.root);
-    }
-
     // корневой элемент
     private Node root;
 

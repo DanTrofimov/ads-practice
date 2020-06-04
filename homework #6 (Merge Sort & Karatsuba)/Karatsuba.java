@@ -83,7 +83,7 @@ public class Karatsuba {
         return result;
     }
 
-    // сложение двух булевых массивов todo: немного переделать
+    // сложение двух булевых массивов
     public static boolean[] boolSum(boolean[] bool1, boolean[] bool2) {
         BigInteger num1 = convertToNum(bool1);
         BigInteger num2 = convertToNum(bool2);

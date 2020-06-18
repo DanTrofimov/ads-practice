@@ -1,6 +1,23 @@
+import java.util.HashSet;
+
 public class DynamicProgramming {
     public static void main(String[] args) {
-        System.out.println(calcAmountOfWays(7));
+        System.out.println(calcFact(5));
+        for (int i = 0; i < 5; i++) {
+            System.out.println(calcFib(i));
+        }
+    }
+    // к вопросу о комбинаторике, fib и fact - типичные примеры
+    public static int calcFact(int num) {
+        if (num < 0) return -1;
+        if (num == 0) return 0;
+        if (num == 1) return 1;
+        return num * calcFact(num-1);
+    }
+
+    public static int calcFib(int num) {
+        if (num == 1 || num == 0) return 1;
+        return calcFib(num - 1) + calcFib(num - 2);
     }
 
     // задача суммы подмножества (без побитовых операций)
@@ -134,6 +151,38 @@ public class DynamicProgramming {
     // meet-in-the-middle решаем задачу "попалам", после чего сравниваем
     // результаты обеих половин
     public static boolean subsetBalance(int[] nums, int num) {
-        int n21 = 1<<(nums.length - 1)
+        int n21 = 1<<(nums.length - 1);
+        HashSet<Integer> ts = new HashSet<>();
+        for (int q = 0; q < n21; q++) {
+            int t = 0;
+            for (int i = 0; i < nums.length/2; i++) {
+                int result = q & 1<<i;
+                if (result  != 0) t += nums[i];
+                ts.add(t);
+            }
+        }
+        for (int q = 0; q < n21; q++) {
+            int r = 0;
+            for (int i = nums.length/2 + 1; i < nums.length; i++) {
+                int result = q & 1<<i;
+                if (result != 0) r = nums[i];
+            }
+            if (ts.contains(num - r)) return true;
+        }
+        return false;
     }
+
+    // задача о черепашке
+    // юзаем кеширование (мемоизация), запоминание результатов
+    // предыдущих вычислений
+    public static int calcTurtle(int n, int m, int[][] amounts) {
+        int[][] field = new int[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                field[i][j]=Math.max(field[i-1][j],field[i][j-1])+amounts[i][j];
+            }
+        }
+        return field[n-1][m-1];
+    }
+
 }

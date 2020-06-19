@@ -184,5 +184,4 @@ public class DynamicProgramming {
         }
         return field[n-1][m-1];
     }
-
 }

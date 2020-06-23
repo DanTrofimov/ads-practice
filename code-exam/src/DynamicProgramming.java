@@ -19,7 +19,7 @@ public class DynamicProgramming {
         if (num == 1 || num == 0) return 1;
         return calcFib(num - 1) + calcFib(num - 2);
     }
-
+    // (перебор)
     // задача суммы подмножества (без побитовых операций)
     // представляем всевозможное количество комбинаций как 2^n
     // w = subset определенное число от 0 до 2^n (какой-то один набор из множества двоичных чисел от 0 до 2^n длинной n)
@@ -44,7 +44,7 @@ public class DynamicProgramming {
         }
         return false;
     }
-
+    // (перебор)
     // задача суммы подмножества с побитовыми сдвигами
     public static boolean findSumBit(int[] nums, int num) {
         int subsetAmount = 1;
@@ -63,7 +63,7 @@ public class DynamicProgramming {
         }
         return false;
     }
-
+    // (перебор)
     // задача о расстановке ферзей (метод ветвей и границ, "отрезание" многих недостижимых случаев)
     // здесь у каждого ферзя x - его столбец, y[x] - строка
     // по времени T < O(n!), по памяти M = O(1)

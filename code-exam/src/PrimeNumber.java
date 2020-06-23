@@ -1,5 +1,5 @@
 public class PrimeNumber {
-    // массив с метками прсототы чисел
+    // массив с метками простоты чисел
     public static boolean[] primes;
 
     public static void main(String[] args) {

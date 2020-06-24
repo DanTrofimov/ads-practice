@@ -94,7 +94,7 @@ public class DynamicProgramming {
     }
 
     // задача о кузнечике
-    // для входного n, коичество путей будет равно calcAmountOfWays(n+3)
+    // для входного n, количество путей будет равно calcAmountOfWays(n+3)
     // по времени T = O(n)
     public static int calcAmountOfWays(int num) {
         // дефолтные значения
@@ -149,7 +149,7 @@ public class DynamicProgramming {
 
     // сумма подмножества с балансом дп и перебора
     // meet-in-the-middle решаем задачу "попалам", после чего сравниваем
-    // результаты обеих половин
+    // результаты обеих половин T = o (2^(n/2)*n)
     public static boolean subsetBalance(int[] nums, int num) {
         int n21 = 1<<(nums.length - 1);
         HashSet<Integer> ts = new HashSet<>();
@@ -174,7 +174,7 @@ public class DynamicProgramming {
 
     // задача о черепашке
     // юзаем кеширование (мемоизация), запоминание результатов
-    // предыдущих вычислений
+    // предыдущих вычислений T = O(nm)
     public static int calcTurtle(int n, int m, int[][] amounts) {
         int[][] field = new int[n][m];
         for (int i = 0; i < n; i++) {
